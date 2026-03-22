@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+@theme {
+  --font-syne: 'Syne', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  --color-flutter-blue:   #54C5F8;
+  --color-flutter-teal:   #01BAEF;
+  --color-flutter-navy:   #042B59;
+  --color-flutter-accent: #FFC107;
+  --color-flutter-bg:     #050E1A;
+  --color-flutter-card:   #081629;
+
+  --animate-drift1: drift1 18s ease-in-out infinite alternate;
+  --animate-drift2: drift2 20s ease-in-out infinite alternate;
+  --animate-drift3: drift3 15s ease-in-out infinite alternate;
+  --animate-pulse2: pulse2 2s ease-in-out infinite;
+  --animate-fadeUp:  fadeUp .7s ease both;
+  --animate-fadeUp2: fadeUp .7s ease .12s both;
+  --animate-fadeUp3: fadeUp .7s ease .24s both;
+  --animate-fadeUp4: fadeUp .7s ease .36s both;
+
+  @keyframes drift1 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(40px, 60px) scale(1.08); }
+  }
+  @keyframes drift2 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(-50px, -40px) scale(1.05); }
+  }
+  @keyframes drift3 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(30px, -50px) scale(1.1); }
+  }
+  @keyframes pulse2 {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, .5); }
+    50%       { box-shadow: 0 0 0 6px rgba(255, 193, 7, 0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
