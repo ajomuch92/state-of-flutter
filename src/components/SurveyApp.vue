@@ -4,6 +4,8 @@ import SurveyForm     from './SurveyForm.vue'
 import SurveyThankYou from './SurveyThankYou.vue'
 // import SurveyResults  from './SurveyResults.vue'
 
+defineOptions({ name: 'SurveyApp' })
+
 type View = 'form' | 'thankyou' | 'results'
 
 const view          = ref<View>('form')

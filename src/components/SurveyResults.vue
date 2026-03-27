@@ -2,6 +2,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { actions } from 'astro:actions'
 
+defineOptions({ name: 'SurveyForm' })
+
 // ── Types ──────────────────────────────────────────────────────
 interface Question {
   id:           string
