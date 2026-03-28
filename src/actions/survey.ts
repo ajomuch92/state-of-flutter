@@ -1,7 +1,7 @@
 import { ActionError, defineAction } from 'astro:actions'
 import type { Questions, SurveyAnswers, Surveys } from '../models/schemas'
 
-import { pb } from '../data'
+import { createPB } from '../data'
 import { z } from 'astro/zod'
 
 // ── Helpers ────────────────────────────────────────────────────
@@ -21,6 +21,8 @@ export const server = {
   getSurvey: defineAction({
     handler: async () => {
       try {
+        const pb = createPB()
+
         const result = await pb
           .collection('surveys')
           .getList<Surveys>(1, 1, { sort: '-created' })
@@ -45,6 +47,24 @@ export const server = {
     },
   }),
 
+  createSurvey: defineAction({
+    handler: async () => {
+      try {
+        const pb = createPB()
+        const survey = await pb.collection('surveys').create<Surveys>()
+
+        return {
+          id:      survey.id,
+          created: survey.created,
+          updated: survey.updated,
+        }
+      } catch (e) {
+        if (e instanceof ActionError) throw e
+        pbError(e, 'Failed to create survey.')
+      }
+    },
+  }),
+
   /**
    * Fetch all questions for a survey, expanded with their category.
    */
@@ -55,6 +75,7 @@ export const server = {
     handler: async ({ surveyId: _surveyId }) => {
       // surveyId is accepted for future filtering; currently questions are global
       try {
+        const pb = createPB()
         const items = await pb
           .collection('questions')
           .getFullList<Questions & { expand?: { field?: { id: string; name: string } } }>({
@@ -95,6 +116,7 @@ export const server = {
     }),
     handler: async ({ surveyId, answers }) => {
       try {
+        const pb = createPB()
         await Promise.all(
           answers.map(({ questionId, answer }) =>
             pb.collection('surveyAnswers').create<SurveyAnswers>({
@@ -121,6 +143,7 @@ export const server = {
     }),
     handler: async ({ surveyId }) => {
       try {
+        const pb = createPB()
         const [questions, answers] = await Promise.all([
           pb
             .collection('questions')
