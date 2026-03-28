@@ -43,6 +43,7 @@ export const SurveysSchema = z.object({
   id: z.string(),
   created: z.date(),
   updated: z.date(),
+  completed: z.boolean().optional().nullable(),
 });
 
 export type Surveys = z.infer<typeof SurveysSchema>;
