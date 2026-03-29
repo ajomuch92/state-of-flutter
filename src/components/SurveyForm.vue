@@ -50,7 +50,7 @@ const canAdvance = computed(() => {
 // ── Helpers ────────────────────────────────────────────────────
 function parseOptions(raw: string): string[] {
   if (!raw) return []
-  try { return JSON.parse(raw) } catch { return [] }
+  try { return raw.split(',').map(s => s.trim()) } catch { return [] }
 }
 
 function setAnswer(questionId: string, value: string | string[]) {
@@ -76,7 +76,7 @@ function isChecked(questionId: string, option: string): boolean {
 onMounted(async () => {
   try {
     // 1. Fetch latest survey
-    const { data: survey, error: surveyErr } = await actions.getSurvey({})
+    const { data: survey, error: surveyErr } = await actions.createSurvey({})
     if (surveyErr) throw new Error(surveyErr.message)
 
     surveyId.value = survey!.id
@@ -259,7 +259,7 @@ async function submit() {
             v-for="opt in ['Yes', 'No']"
             :key="opt"
             @click="setAnswer(currentQuestion.id, opt)"
-            class="flex-1 py-3 rounded-xl font-mono text-sm tracking-widest border-2 transition-all duration-150"
+            class="cursor-pointer flex-1 py-3 rounded-xl font-mono text-sm tracking-widest border-2 transition-all duration-150"
             :class="currentAnswer === opt
               ? 'border-flutter-teal bg-flutter-teal/15 text-flutter-teal'
               : 'border-slate-700 text-slate-400 hover:border-flutter-teal/40 hover:text-slate-200'"
@@ -288,7 +288,7 @@ async function submit() {
         <button
           @click="prev"
           :disabled="currentStep === 0"
-          class="font-mono text-xs tracking-widest uppercase text-slate-500 hover:text-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors px-4 py-2"
+          class="cursor-pointer font-mono text-xs tracking-widest uppercase text-slate-500 hover:text-slate-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors px-4 py-2"
         >
           ← Back
         </button>
@@ -298,7 +298,7 @@ async function submit() {
           v-if="!isLast"
           @click="next"
           :disabled="!canAdvance"
-          class="inline-flex items-center gap-2 font-mono font-bold text-sm tracking-widest px-8 py-3 rounded-full transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+          class="cursor-pointer inline-flex items-center gap-2 font-mono font-bold text-sm tracking-widest px-8 py-3 rounded-full transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
           :style="canAdvance
             ? 'background:linear-gradient(135deg,#01BAEF,#54C5F8);color:#050E1A;box-shadow:0 0 28px rgba(1,186,239,.35)'
             : 'background:#0d2035;color:#6e90a8'"
@@ -311,7 +311,7 @@ async function submit() {
           v-else
           @click="submit"
           :disabled="!canAdvance || submitting"
-          class="inline-flex items-center gap-2 font-mono font-bold text-sm tracking-widest px-8 py-3 rounded-full transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+          class="cursor-pointer inline-flex items-center gap-2 font-mono font-bold text-sm tracking-widest px-8 py-3 rounded-full transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
           :style="canAdvance && !submitting
             ? 'background:linear-gradient(135deg,#01BAEF,#54C5F8);color:#050E1A;box-shadow:0 0 28px rgba(1,186,239,.35)'
             : 'background:#0d2035;color:#6e90a8'"
