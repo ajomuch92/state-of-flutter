@@ -117,15 +117,16 @@ export const server = {
     handler: async ({ surveyId, answers }) => {
       try {
         const pb = createPB()
-        await Promise.all(
-          answers.map(({ questionId, answer }) =>
-            pb.collection('surveyAnswers').create<SurveyAnswers>({
-              surveyId,
-              questionId,
-              answer,
-            })
-          )
-        )
+        const batch = pb.createBatch()
+        for (const { questionId, answer } of answers) {
+          batch.collection('surveyAnswers').create({
+            surveyId,
+            questionId,
+            answer,
+          })
+        }
+        batch.collection('surveys').update(surveyId, { completed: true })
+        await batch.send()
         return { success: true, surveyId }
       } catch (e) {
         pbError(e, 'Failed to submit answers.')
