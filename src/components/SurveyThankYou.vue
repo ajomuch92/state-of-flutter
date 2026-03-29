@@ -51,6 +51,12 @@ defineOptions({ name: 'SurveyThankYou' })
           View Results
         </button> -->
 
+        <a href="/"
+           class="inline-flex items-center gap-2 font-mono text-sm tracking-widest px-8 py-3.5 rounded-full border border-flutter-blue/20 text-slate-400 hover:border-flutter-blue/50 hover:text-slate-200 transition-all duration-200"
+           style="background: linear-gradient(135deg,#01BAEF,#54C5F8); color:#050E1A; box-shadow:0 0 28px rgba(1,186,239,.35)">
+          Home
+        </a>
+
         <a
           href="https://twitter.com/intent/tweet?text=I+just+took+the+State+of+Flutter+2026+survey!+%23Flutter+%23Dart"
           target="_blank"
