@@ -40,7 +40,7 @@ defineOptions({ name: 'SurveyThankYou' })
 
       <!-- Actions -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <button
+        <!-- <button
           @click="$emit('viewResults')"
           class="inline-flex items-center gap-2 font-mono font-bold text-sm tracking-widest px-8 py-3.5 rounded-full transition-all duration-200 hover:-translate-y-0.5"
           style="background: linear-gradient(135deg,#01BAEF,#54C5F8); color:#050E1A; box-shadow:0 0 28px rgba(1,186,239,.35)"
@@ -49,7 +49,7 @@ defineOptions({ name: 'SurveyThankYou' })
             <path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>
           </svg>
           View Results
-        </button>
+        </button> -->
 
         <a
           href="https://twitter.com/intent/tweet?text=I+just+took+the+State+of+Flutter+2026+survey!+%23Flutter+%23Dart"
