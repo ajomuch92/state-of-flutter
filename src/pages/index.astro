@@ -323,10 +323,33 @@ const topics = [
   </main>
 
   <!-- ── FOOTER ── -->
-  <footer class="relative z-10 border-t border-flutter-blue/8 py-6 text-center">
-    <p class="font-mono text-[.7rem] tracking-wider text-slate-500">
-      State of Flutter 2026 · Community-driven · Results published openly ·
-      <a href="#" class="text-flutter-blue hover:underline">Share the survey</a>
-    </p>
+  <footer class="relative z-10 border-t border-flutter-blue/8 py-8 text-center">
+    <div class="flex flex-col items-center gap-4">
+      <p class="font-mono text-[.7rem] tracking-wider text-slate-500">
+        State of Flutter 2026 · Community-driven · Results published openly ·
+        <a
+          href="https://x.com/intent/tweet?text=I%20just%20took%20the%20State%20of%20Flutter%202026%20survey!%20Help%20us%20map%20the%20Flutter%20ecosystem%20%F0%9F%90%A6%20%23Flutter%20%23Dart%20%23StateOfFlutter"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-flutter-blue hover:underline inline-flex items-center gap-1"
+        >
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.622 5.905-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+            ></path>
+          </svg>
+          Share the survey
+        </a>
+      </p>
+
+      <a
+        href="https://buymeacoffee.com/ajomuch92"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 font-mono text-[.75rem] tracking-widest px-5 py-2.5 rounded-full border border-flutter-accent/30 bg-flutter-accent/6 text-flutter-accent hover:bg-flutter-accent/15 hover:border-flutter-accent/60 transition-all duration-200"
+      >
+        ☕ Buy me a coffee
+      </a>
+    </div>
   </footer>
 </Layout>
