@@ -13,6 +13,7 @@
     field: string | null
     maxSelection: number | null
     categoryName: string | null
+    optional: boolean
   }
 
   // ── Emits ──────────────────────────────────────────────────────
@@ -45,11 +46,12 @@
   )
   const canAdvance = computed(() => {
     const a = currentAnswer.value
-    if (!a) return false
+    // Optional with no answer → always allowed (skip)
+    if (!a || (Array.isArray(a) && a.length === 0)) {
+      return currentQuestion.value?.optional ?? false
+    }
 
     if (Array.isArray(a)) {
-      if (a.length === 0) return false
-      // If "other/others" is selected, its input must be non-empty
       if (hasOtherSelected(currentQuestion.value?.id ?? '')) {
         return (otherInputs.value[currentQuestion.value?.id ?? ''] ?? '').trim().length > 0
       }
@@ -62,6 +64,8 @@
     }
     return String(a).trim().length > 0
   })
+
+  const isOptional = computed(() => currentQuestion.value?.optional ?? false)
 
   // ── Other helpers ──────────────────────────────────────────────
   function isOtherOption(value: string): boolean {
@@ -156,6 +160,21 @@
     if (currentStep.value > 0) currentStep.value--
   }
 
+  function skip() {
+    // Clear any partial answer for this question
+    const id = currentQuestion.value?.id
+    if (id) {
+      const a = { ...answers.value }
+      delete a[id]
+      answers.value = a
+      const o = { ...otherInputs.value }
+      delete o[id]
+      otherInputs.value = o
+    }
+    if (!isLast.value) currentStep.value++
+    else submit()
+  }
+
   // ── Cancel ─────────────────────────────────────────────────────
   function requestCancel() { showCancelModal.value = true }
   function dismissCancel()  { showCancelModal.value = false }
@@ -189,7 +208,7 @@
             ? JSON.stringify(resolved)
             : resolved,
         }
-      })
+      }).filter((a) => !!a.answer)
 
       const { data, error: submitErr } = await actions.submitAnswers({
         surveyId: surveyId.value,
@@ -284,11 +303,26 @@
       <!-- Question card -->
       <div v-if="currentQuestion" class="border border-flutter-blue/10 rounded-2xl bg-flutter-card p-8 shadow-xl">
 
-        <!-- Category badge -->
-        <span v-if="currentQuestion.categoryName"
-          class="inline-block font-mono text-[.68rem] tracking-widest uppercase text-flutter-accent border border-flutter-accent/30 bg-flutter-accent/6 px-3 py-1 rounded-full mb-5">
-          {{ currentQuestion.categoryName }}
-        </span>
+        <!-- Card top row: category + optional badge + skip -->
+        <div class="flex items-center justify-between gap-3 mb-5">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span v-if="currentQuestion.categoryName"
+              class="inline-block font-mono text-[.68rem] tracking-widest uppercase text-flutter-accent border border-flutter-accent/30 bg-flutter-accent/6 px-3 py-1 rounded-full">
+              {{ currentQuestion.categoryName }}
+            </span>
+            <span v-if="isOptional"
+              class="inline-block font-mono text-[.65rem] tracking-widest uppercase text-slate-500 border border-slate-700 bg-slate-800/50 px-2.5 py-1 rounded-full">
+              Optional
+            </span>
+          </div>
+          <button v-if="isOptional" @click="skip"
+            class="cursor-pointer shrink-0 inline-flex items-center gap-1.5 font-mono text-[.68rem] tracking-widest uppercase text-slate-500 hover:text-flutter-teal border border-slate-700 hover:border-flutter-teal/40 bg-transparent hover:bg-flutter-teal/5 px-3 py-1 rounded-full transition-all duration-150">
+            Skip
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
 
         <!-- Question text -->
         <h2 class="font-syne font-bold text-white text-xl leading-snug mb-6">
