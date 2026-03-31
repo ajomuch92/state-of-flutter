@@ -34,6 +34,7 @@ export const QuestionsSchema = z.object({
   options: z.string().optional().nullable(),
   field: z.string().optional().nullable(),
   maxSelection: z.number().optional().nullable(),
+  optional: z.boolean().optional().nullable(),
 });
 
 export type Questions = z.infer<typeof QuestionsSchema>;
