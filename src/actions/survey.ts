@@ -81,7 +81,7 @@ export const server = {
             Questions & { expand?: { field?: { id: string; name: string } } }
           >({
             expand: "field",
-            sort: "field,created",
+            sort: "created",
           });
 
         return items.map((q) => ({
@@ -92,6 +92,7 @@ export const server = {
           field: q.field ?? null,
           maxSelection: q.maxSelection ?? null,
           categoryName: q.expand?.field?.name ?? null,
+          optional: q.optional ?? false
         }));
       } catch (e) {
         pbError(e, "Failed to fetch questions.");
