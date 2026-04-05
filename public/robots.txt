@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stateofflutter.dev/sitemap-index.xml
