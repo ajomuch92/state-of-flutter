@@ -1,6 +1,7 @@
 import cloudflare from '@astrojs/cloudflare';
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@astrojs/vue';
 
@@ -12,7 +13,8 @@ export default defineConfig({
       'process.env.POCKETBASE_URL': JSON.stringify(process.env.POCKETBASE_URL)
     }
   },
+  site: 'https://www.stateofflutter.dev',
   output: 'server',
   adapter: cloudflare(),
-  integrations: [vue({ devtools: true })]
+  integrations: [vue({ devtools: true }), sitemap()]
 });
