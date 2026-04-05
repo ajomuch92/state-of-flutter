@@ -19,6 +19,17 @@ const { title, bodyClass } = Astro.props;
     <title>
       {title ? `${title} · State of Flutter` : "State of Flutter"}
     </title>
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta
+      name="description"
+      content="The community-driven survey to understand how Flutter developers around the world are building in 2026. Open, free, and fully public results."
+    />
+    <meta
+      name="keywords"
+      content="Flutter, Dart, Flutter survey, State of Flutter, Flutter 2026, Flutter developers, cross-platform, mobile development"
+    />
+    <meta name="author" content="ajomuch92" />
+    <link rel="canonical" href="https://stateofflutter.com" />
   </head>
   <body class={bodyClass}>
     <slot />
